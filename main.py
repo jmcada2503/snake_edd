@@ -67,7 +67,7 @@ def cronometro(run):
 
 posicion = [cord_x, cord_y]
 cuerpo = [[cord_x,cord_y],[cord_x,cord_y-15],[cord_x,cord_y-30]]
-direccion = "Arriba"
+direccion = "u"
 run = True
 food = rand_food(numero_de_fruta,cuerpo)
 numero_de_fruta=1
