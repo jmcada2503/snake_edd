@@ -47,7 +47,7 @@ class Screen:
             for j in range(self.width):
                 print(self.table[i][j], end='')
             print()
-        info_line = f" Puntos -> {points}"
-        time_info = f"{round(time.time()-initial_time, 1)} <- Tiempo "
-        info_line += (' '*(os.get_terminal_size().columns-len(info_line)-len(time_info)))+time_info
+        points_info = f"  @ {points}"
+        time_info = f"{round(time.time()-initial_time, 1)}  "
+        info_line = '  '+colored('@', "red")+f" {points}"+(' '*(os.get_terminal_size().columns-len(points_info)-len(time_info)))+colored(time_info, "yellow")
         print(('\n'*(self.offset-1))+info_line)
