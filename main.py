@@ -16,6 +16,7 @@ Blanco= (255,255,255)
 Gris=(128,128,128)
 Verde=(0,200,0)
 Rojo=(255,0,0)
+Negro=(0,0,0)
 
 #fps
 Fps=pygame.time.Clock()
@@ -31,7 +32,6 @@ cord_y=((Largo//15)//2)*15
 #velocidad
 velocidad=15
 
-direccion=''
 #Funcion para la generacion de los puntos
 def rand_food(cuerp):
         r1=random.randint(0,(Ancho//15)-1)*15
@@ -49,13 +49,6 @@ def rand_food(cuerp):
              posicion=rand_food(cuerp)
         return posicion
 
-# def cronometro(run):
-#      inicio=time.time()
-#      if run==False:
-#           fin=time.time()
-#           tiempo=round(fin-inicio)
-#           return print("El tiempo que jugaste fue de", str(tiempo)+"s")
-
 posicion = [cord_x, cord_y]
 cuerpo = deque([[cord_x,cord_y],[cord_x,cord_y+15],[cord_x,cord_y+30]])
 direccion = 'up'
@@ -63,6 +56,7 @@ direccion = 'up'
 food = [225, 60]
 puntuacion = 0
 crono=time.time()
+<<<<<<< HEAD
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -102,7 +96,7 @@ while True:
          break
 
 #Cambia el color de la pantalla
-    screen.fill(Verde)
+    screen.fill(Negro)
     for body in cuerpo:
         pygame.draw.rect(screen,Gris,(body[0],body[1],15,15))
     pygame.draw.rect(screen,Rojo,(food[0],food[1],15,15))
