@@ -1,15 +1,14 @@
 from collections import deque
-import random
-import sys
 import time
 from getkey import getkey, keys
 from threading import Thread
+import random
 
 from snake import Snake
 from screen import Screen
 from food import Food
 
-SLEEP_TIME = 0.15
+SLEEP_TIME = 0.2
 
 screen = Screen()
 snake = Snake((screen.width//2, screen.height//2))
@@ -39,6 +38,8 @@ input_thread.start()
 screen.printFrame()
 time.sleep(SLEEP_TIME)
 
+mov_counter = 0
+random_food_time = -1
 try:
     while True:
         if (moves):
@@ -49,14 +50,20 @@ try:
             if (update[0]):
                 screen.table[update[0][1]][update[0][0]] = screen.char
             else:
-                food.move(screen.width, screen.height, snake)
-                screen.table[food.position[1]][food.position[0]] = food.char
+                random_food_time = random.randint(0,9)
+                mov_counter = 0
             screen.table[update[1][1]][update[1][0]] = snake.char
         else:
             break;
 
+        if (mov_counter == random_food_time):
+            food.move(screen.width, screen.height, snake)
+            screen.table[food.position[1]][food.position[0]] = food.char
+
         screen.printFrame()
         time.sleep(SLEEP_TIME)
+
+        mov_counter += 1
 
     screen.clear()
     screen.message("PERDISTE EL JUEGO")

@@ -6,7 +6,6 @@ class Snake:
     body = [deque(), set()]
     char = colored('s', 'light_green')
     speed = 1
-
     direction = (0, -1)
 
     def __init__(self, position:tuple):
@@ -54,9 +53,3 @@ class Snake:
         self.body[0].appendleft(new_pos)
         self.body[1].add(new_pos)
         return (pos, self.body[0][0])
-
-    def head(self):
-        return self.body[0][0]
-
-    def tail(self):
-        return self.body[0][-1]
