@@ -16,6 +16,7 @@ Blanco= (255,255,255)
 Gris=(128,128,128)
 Verde=(0,200,0)
 Rojo=(255,0,0)
+Negro=(0,0,0)
 
 #fps
 Fps=pygame.time.Clock()
@@ -37,12 +38,15 @@ numero_de_fruta=0
 def rand_food(num,cuerp):
         
         if num==0:
+             #Esto es para la primera fruta
              posicion=[225,50]
         else:
+            #Esto es paera generar las frutas aleatoriamente
             r1=random.randint(0,(Ancho//15))*15
             r2=random.randint(0,(Largo//15))*15
             a=True
             for body in cuerp:
+                 #Esto es en caso de que la fruta se gener en el cuerpo de la serpiente
                  if body[0]!=r1 and body[1]!=r2:
                       a=True
                  else:
@@ -56,12 +60,6 @@ def rand_food(num,cuerp):
        
         return posicion
 
-def cronometro(run):
-     inicio=time.time()
-     if run==False:
-          fin=time.time()
-          tiempo=round(fin-inicio)
-          return print("El tiempo que jugaste fue de", str(tiempo)+"s")
     
 
 
@@ -78,17 +76,31 @@ while run==True:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                #Esto es para quie imprima los segundo
                 print("Jugaste",str(round(time.time()-crono)),"segundos")
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP or event.key==pygame.K_w:
-                    direccion = 'u'
+                    #Esto es para bloquear el movimiento
+                    if direccion == "d":
+                         pass
+                    else:
+                        direccion = 'u'
                 if event.key == pygame.K_DOWN or event.key==pygame.K_s:
-                    direccion = 'd'
+                    if direccion == "u":
+                         pass
+                    else:
+                        direccion = 'd'
                 if event.key == pygame.K_RIGHT or event.key==pygame.K_d:
-                    direccion = 'r'
+                    if direccion == "l":
+                         pass
+                    else:
+                        direccion = 'r'
                 if event.key == pygame.K_LEFT or event.key==pygame.K_a:
-                    direccion = 'l'
+                    if direccion == "r":
+                         pass
+                    else: 
+                        direccion = 'l'
         
         
         if direccion == 'u':
@@ -101,6 +113,7 @@ while run==True:
             posicion[0] -= velocidad
 
         cuerpo.insert(0, list(posicion))
+        #El if esta entre < y < para que halla una area de acierto por asi decirlo, por que sino agarrar frutas es inexacto.
 
         if ((food[0]-10) <= posicion[0] <= (food[0]+10)) and ((food[1]-10) <= posicion[1] <= (food[1]+10)):
             food = rand_food(numero_de_fruta,cuerpo)
@@ -120,11 +133,11 @@ while run==True:
    
 
     #Cambia el color de la pantalla
-        screen.fill(Verde)   
+        screen.fill(Negro)   
         for body in cuerpo:
+            #Aqui se imprime el cuerpo
             pygame.draw.rect(screen,Gris,(body[0],body[1],15,15))
         pygame.draw.rect(screen,Rojo,pygame.Rect(food[0],food[1],15,15))
         #Actualiza la pantalla
         pygame.display.flip()
         Fps.tick(10)
-        
