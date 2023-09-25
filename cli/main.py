@@ -35,11 +35,15 @@ input_thread_active = True
 input_thread = Thread(target=playerInput)
 input_thread.start()
 
-screen.printFrame()
+points = 0
+initial_time = time.time()
+
+screen.printFrame(points, initial_time)
 time.sleep(SLEEP_TIME)
 
 mov_counter = 0
 random_food_time = -1
+
 try:
     while True:
         if (moves):
@@ -52,6 +56,7 @@ try:
             else:
                 random_food_time = random.randint(0,9)
                 mov_counter = 0
+                points += 1
             screen.table[update[1][1]][update[1][0]] = snake.char
         else:
             break;
@@ -60,14 +65,14 @@ try:
             food.move(screen.width, screen.height, snake)
             screen.table[food.position[1]][food.position[0]] = food.char
 
-        screen.printFrame()
+        screen.printFrame(points, initial_time)
         time.sleep(SLEEP_TIME)
 
         mov_counter += 1
 
     screen.clear()
     screen.message("PERDISTE EL JUEGO")
-    screen.printFrame()
+    screen.printFrame(points, initial_time)
     input_thread_active = False
     input_thread.join()
     exit()

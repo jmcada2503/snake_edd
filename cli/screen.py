@@ -1,5 +1,6 @@
 import os
 from termcolor import colored
+import time
 
 class Screen:
     width = 0
@@ -38,7 +39,7 @@ class Screen:
             for j in range(len(message)+6):
                 self.table[u+i][l+j] = colored(s[i][j], "light_magenta") if s[i][j] == '*' else s[i][j]
 
-    def printFrame(self):
+    def printFrame(self, points, initial_time):
         self.clear()
         print('\n'*self.offset, end='')
         for i in range(self.height):
@@ -46,3 +47,7 @@ class Screen:
             for j in range(self.width):
                 print(self.table[i][j], end='')
             print()
+        info_line = f" Puntos -> {points}"
+        time_info = f"{round(time.time()-initial_time, 1)} <- Tiempo "
+        info_line += (' '*(os.get_terminal_size().columns-len(info_line)-len(time_info)))+time_info
+        print(('\n'*(self.offset-1))+info_line)
