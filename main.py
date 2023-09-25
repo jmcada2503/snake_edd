@@ -56,7 +56,6 @@ direccion = 'up'
 food = [225, 60]
 puntuacion = 0
 crono=time.time()
-<<<<<<< HEAD
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
