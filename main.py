@@ -31,7 +31,7 @@ cord_y = ((Largo//15)//2)*15
 velocidad = 15
 
 posicion = [cord_x, cord_y]
-cuerpo = deque([[cord_x, cord_y], [cord_x, cord_y+15], [cord_x, cord_y+30]])
+cuerpo = deque([[cord_x, cord_y], [cord_x, cord_y+15], [cord_x, cord_y+30]]) # -> o(1)
 direccion = 'up'
 # posición inicial comida
 food = [225, 60]
@@ -41,28 +41,26 @@ puntuacion = 0
 crono = time.time()
 
 # Funcion para la generacion de los puntos
-def rand_food(cuerp, food):
-    r1 = random.randint(0, (Ancho//15)-1)*15
-    r2 = random.randint(0, (Largo//15)-1)*15
+def rand_food(cuerp, food): # -> o(k*n) siendo k las veces que tiene que repetirse hasta encontrar una posición apta
     a = True
-    for body in cuerp:
-        if body[0] != r1 and body[1] != r2:
-            a = True
-        else:
-            a = False
-            break
-    if a == True:
-        food[0] = r1
-        food[1] = r2
-    else:
-        rand_food(cuerp, food)
+    while a:
+        r1 = random.randint(0, (Ancho//15)-1)*15
+        r2 = random.randint(0, (Largo//15)-1)*15
+        a = True
+        for body in cuerp:
+            if body[0] == r1 and body[1] == r2:
+                a = False
+                break
+        if a:
+            food[0] = r1
+            food[1] = r2
 
 # Funcion para validar si choca con su propio cuerpo
-def colisionPropioCuerpo(posicion, cuerpo):
+def colisionPropioCuerpo(posicion, cuerpo): # -> o(n)
     return True if posicion in [cuerpo[i] for i in range(1, len(cuerpo))] else False
 
 # Funcion para validar que no se devuelva sobre su propio cuerpo
-def getNuevaDireccion(direccion, nuevaDireccion):
+def getNuevaDireccion(direccion, nuevaDireccion): # -> o(1)
     validDirections = {
         'up': ['right', 'left'],
         'down': ['right', 'left'],
@@ -74,7 +72,7 @@ def getNuevaDireccion(direccion, nuevaDireccion):
     return direccion
 
 while True:
-    for event in pygame.event.get():
+    for event in pygame.event.get(): # -> o(1)
         if event.type == pygame.QUIT:
             print("Perdiste :(\nJugaste", str(round(time.time()-crono)), "segundos, Puntaje:", puntuacion)
             sys.exit()
@@ -97,7 +95,7 @@ while True:
         posicion[0] += velocidad
     if direccion == 'left':
         posicion[0] -= velocidad
-    cuerpo.appendleft(posicion.copy())
+    cuerpo.appendleft(posicion.copy()) # -> o(1)
     
     #aparicion nueva comida
     if (food[0] == posicion[0] and food[1] == posicion[1]):
@@ -106,17 +104,17 @@ while True:
 
         # dibujar comida en posición aleatoria dentro de la pantalla
         threading.Timer(
-            random.randint(0, 9)*0.300,
-            rand_food,
+            random.randint(0, 9)*0.125,
+            rand_food, # o(k*n)
             args=(cuerpo, food,)
         ).start()
 
         puntuacion += 1
     else:
-        cuerpo.pop()
+        cuerpo.pop() # -> o(1)
 
     #fin del juego si colisiona contra los bordes de la pantalla o con su propio cuerpo
-    if ((posicion[0] < 0) or (posicion[0] >= Ancho) or (posicion[1] < 0) or (posicion[1] >= Largo) or (colisionPropioCuerpo(posicion, cuerpo))):
+    if ((posicion[0] < 0) or (posicion[0] >= Ancho) or (posicion[1] < 0) or (posicion[1] >= Largo) or (colisionPropioCuerpo(posicion, cuerpo))): # -> o(n)
         print("Perdiste :(\nJugaste", str(round(time.time()-crono)), "segundos, Puntaje:", puntuacion)
         sys.exit()
 

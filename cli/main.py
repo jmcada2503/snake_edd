@@ -71,7 +71,7 @@ try:
         mov_counter += 1
 
     screen.clear()
-    screen.message("PERDISTE EL JUEGO")
+    screen.message("PERDISTE")
     screen.printFrame(points, initial_time)
     input_thread_active = False
     input_thread.join()
