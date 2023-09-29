@@ -8,7 +8,7 @@ from snake import Snake
 from screen import Screen
 from food import Food
 
-SLEEP_TIME = 0.2
+SLEEP_TIME = 0.15
 
 screen = Screen()
 snake = Snake((screen.width//2, screen.height//2))
